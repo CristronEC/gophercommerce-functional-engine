@@ -1,6 +1,6 @@
 # 📦 GopherCommerce – Sistema de E-Commerce en Go
 
-## 📖 Descripción General
+## Descripción General
 
 GopherCommerce es un sistema backend de comercio electrónico desarrollado en el lenguaje **Go**.  
 El proyecto implementa servicios web REST que permiten la gestión de productos, creación de carritos de compra y simulación de pagos, siguiendo una arquitectura modular organizada por dominios.  
@@ -9,25 +9,25 @@ El sistema funciona completamente en memoria y expone endpoints HTTP que pueden 
 
 ---
 
-## 🚀 Principales Funcionalidades
+## Principales Funcionalidades
 
-### 1️⃣ Gestión de Productos (Catalog)
+### Gestión de Productos (Catalog)
 - Listar productos disponibles.
 - Obtener información de cada producto (ID, nombre, precio y stock).
 - Simulación de inventario en memoria.
 
-### 2️⃣ Gestión de Carrito (Cart)
+### Gestión de Carrito (Cart)
 - Crear un carrito de compras.
 - Agregar productos al carrito.
 - Visualizar contenido del carrito.
 - Marcar el carrito como pagado (checkout).
 
-### 3️⃣ Simulación de Pago (Payment)
+### Simulación de Pago (Payment)
 - Procesamiento simulado de pagos.
 - Generación de un estado de pago (“approved”).
 - Integración con el proceso de checkout.
 
-### 4️⃣ Servicios Web REST
+### Servicios Web REST
 El sistema expone los siguientes endpoints HTTP:
 
 - `GET /products`
@@ -52,22 +52,18 @@ El proyecto busca demostrar:
 
 ---
 
-## 👥 Datos del Grupo
-
+## Datos del Grupo
 **Integrantes:**  
-- Nombre 1  
-- Nombre 2  
-- Nombre 3  
+- Cristhian David Cruz Molina  
 
 **Carrera:** Ingeniería de Software  
-**Materia:** (Nombre de la materia)  
-**Docente:** (Nombre del docente)
+**Materia:** Programacion Orientada a Objetos
 
 ---
 
 ## 📅 Fecha de Entrega
 
 **01 de marzo de 2026**  
-*(Reemplazar por la fecha real de entrega si es necesario)*
 
 ---
+
