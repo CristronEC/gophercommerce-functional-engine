@@ -2,15 +2,19 @@ package http
 
 import (
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
 )
 
 func NewRouter(handler *Handler) http.Handler {
-	r := chi.NewRouter()
+	mux := http.NewServeMux()
 
-	r.Get("/health", handler.HealthCheck)
-	r.Get("/products", handler.GetProducts)
+	mux.HandleFunc("/catalog", handler.ListProducts)
+	mux.HandleFunc("/catalog/", handler.GetProduct)
 
-	return r
+	mux.HandleFunc("/cart", handler.GetCart)
+	mux.HandleFunc("/cart/add", handler.AddToCart)
+	mux.HandleFunc("/cart/clear", handler.ClearCart)
+
+	mux.HandleFunc("/checkout", handler.Checkout)
+
+	return mux
 }
