@@ -1,38 +1,50 @@
 package cart
 
-import "github.com/samber/lo"
+import "sync"
 
-// cartServiceImpl es la implementación concreta del contrato CartService.
-// No mantiene estado interno, lo que lo hace funcional y testeable.
-type cartServiceImpl struct{}
-
-// NewCartService crea una nueva instancia del servicio.
-func NewCartService() CartService {
-	return &cartServiceImpl{}
+type service struct {
+	items []CartItem
+	mu    sync.RWMutex
 }
 
-// AddItem retorna un nuevo slice sin mutar el original.
-func (s *cartServiceImpl) AddItem(items []CartItem, item CartItem) []CartItem {
-	return append(items, item)
+func NewService() Service {
+	return &service{
+		items: []CartItem{},
+	}
 }
 
-// RemoveItem filtra el producto sin modificar el slice original.
-func (s *cartServiceImpl) RemoveItem(items []CartItem, productID string) []CartItem {
-	return lo.Filter(items, func(item CartItem, _ int) bool {
-		return item.ProductID() != productID
-	})
-}
+func (s *service) AddItem(productID string, name string, price float64, quantity int) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
-// CalculateTotal aplica reducción funcional sobre el carrito.
-func (s *cartServiceImpl) CalculateTotal(items []CartItem) (float64, error) {
-
-	if len(items) == 0 {
-		return 0, ErrEmptyCart
+	item := CartItem{
+		ProductID: productID,
+		Name:      name,
+		Price:     price,
+		Quantity:  quantity,
 	}
 
-	total := lo.Reduce(items, func(acc float64, item CartItem, _ int) float64 {
-		return acc + (item.Price() * float64(item.Quantity()))
-	}, 0.0)
+	s.items = append(s.items, item)
+	return nil
+}
 
-	return total, nil
+func (s *service) GetCart() Cart {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	var total float64
+	for _, i := range s.items {
+		total += i.Price * float64(i.Quantity)
+	}
+
+	return Cart{
+		Items: s.items,
+		Total: total,
+	}
+}
+
+func (s *service) ClearCart() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.items = []CartItem{}
 }
