@@ -4,21 +4,20 @@ import (
 	"log"
 	"net/http"
 
+	"gophercommerce-functional-engine/internal/cart"
 	"gophercommerce-functional-engine/internal/catalog"
-	httpPkg "gophercommerce-functional-engine/pkg/http"
+	"gophercommerce-functional-engine/internal/payment"
+	httpHandler "gophercommerce-functional-engine/pkg/http"
 )
 
 func main() {
+	catalogService := catalog.NewService()
+	cartService := cart.NewService()
+	paymentService := payment.NewService()
 
-	catalogService := catalog.NewCatalogService()
-
-	handler := httpPkg.NewHandler(catalogService)
-
-	router := httpPkg.NewRouter(handler)
+	handler := httpHandler.NewHandler(catalogService, cartService, paymentService)
+	router := httpHandler.NewRouter(handler)
 
 	log.Println("Server running on :8080")
-
-	if err := http.ListenAndServe(":8080", router); err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
