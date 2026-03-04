@@ -1,8 +1,7 @@
 package shared
 
-// JSONResponse es una estructura estándar para respuestas HTTP.
 type JSONResponse struct {
-	Status  string      `json:"status"`
-	Message string      `json:"message"`
+	Success bool        `json:"success"`
 	Data    interface{} `json:"data,omitempty"`
+	Error   string      `json:"error,omitempty"`
 }
